@@ -6,6 +6,7 @@ import com.springml.salesforce.wave.impl.ForceAPIImpl;
 import com.springml.salesforce.wave.impl.WaveAPIImpl;
 import com.springml.salesforce.wave.util.SFConfig;
 import com.springml.salesforce.wave.util.WaveAPIConstants;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Factory class to get WaveAPI
@@ -31,6 +32,10 @@ public class APIFactory {
         return new WaveAPIImpl(new SFConfig(username, password, loginURL, apiVersion));
     }
 
+    public WaveAPI waveAPIAuthToken(String authToken, String loginURL, String apiVersion) throws Exception {
+        return new WaveAPIImpl(new SFConfig(authToken, loginURL, apiVersion));
+    }
+
     public ForceAPI forceAPI(String username, String password, String loginURL) throws Exception {
         return this.forceAPI(username, password, loginURL, WaveAPIConstants.API_VERSION);
     }
@@ -51,8 +56,19 @@ public class APIFactory {
         return new ForceAPIImpl(sfConfig);
     }
 
-    public BulkAPI bulkAPI(String username, String password, String loginURL, String apiVersion) throws Exception {
-        SFConfig sfConfig = new SFConfig(username, password, loginURL, apiVersion);
+    public ForceAPI forceAPIAuthToken(String authToken, String loginURL,
+                             String apiVersion, Integer batchSize, Integer maxRetry) throws Exception {
+        SFConfig sfConfig = new SFConfig(authToken, loginURL, apiVersion, batchSize);
+        sfConfig.setMaxRetry(maxRetry);
+        return new ForceAPIImpl(sfConfig);
+    }
+
+    public BulkAPI bulkAPI(String username, String password,String authToken, String loginURL, String apiVersion) throws Exception {
+        SFConfig sfConfig;
+        if(StringUtils.isNotBlank(authToken))
+            sfConfig = new SFConfig(authToken, loginURL, apiVersion);
+        else
+            sfConfig = new SFConfig(username, password, loginURL, apiVersion);
         return new BulkAPIImpl(sfConfig);
     }
 

@@ -5,6 +5,7 @@ import static com.springml.salesforce.wave.util.WaveAPIConstants.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.sforce.soap.partner.Connector;
@@ -17,6 +18,7 @@ public class SFConfig {
 
     private String username;
     private String password;
+    private String authToken;
     private String loginURL;
     private String apiVersion;
     private Integer batchSize;
@@ -27,11 +29,23 @@ public class SFConfig {
             String apiVersion) {
         this(username, password, loginURL, apiVersion, null);
     }
+    public SFConfig(String authToken, String loginURL,
+                    String apiVersion) {
+        this(authToken, loginURL, apiVersion, 0);
+    }
 
     public SFConfig(String username, String password, String loginURL,
             String apiVersion, Integer batchSize) {
         this.username = username;
         this.password = password;
+        this.loginURL = loginURL;
+        this.apiVersion = apiVersion;
+        this.batchSize = batchSize;
+    }
+
+    public SFConfig(String authToken, String loginURL,
+                    String apiVersion, Integer batchSize) {
+        this.authToken = authToken;
         this.loginURL = loginURL;
         this.apiVersion = apiVersion;
         this.batchSize = batchSize;
@@ -96,8 +110,12 @@ public class SFConfig {
     private PartnerConnection createPartnerConnection() throws Exception {
         ConnectorConfig config = new ConnectorConfig();
         LOG.debug("Connecting SF Partner Connection using " + username);
-        config.setUsername(username);
-        config.setPassword(password);
+        if (StringUtils.isNotBlank(authToken)) {
+            config.setSessionId(authToken);
+        } else {
+            config.setUsername(username);
+            config.setPassword(password);
+        }
         String authEndpoint = getAuthEndpoint(loginURL);
         LOG.info("loginURL : " + authEndpoint);
         config.setAuthEndpoint(authEndpoint);

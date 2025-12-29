@@ -19,7 +19,7 @@ public class APIFactoryTest {
 
     @Test
     public void bulkAPITest() throws Exception {
-        BulkAPI bulkAPI = APIFactory.getInstance().bulkAPI("username", "password", "http://login.salesforce.com", "36.0");
+        BulkAPI bulkAPI = APIFactory.getInstance().bulkAPI("username", "password", "authToken", "http://login.salesforce.com", "36.0");
         assertNotNull(bulkAPI);
     }
 }
