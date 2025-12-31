@@ -4,7 +4,7 @@
 
     <groupId>com.datagaps</groupId>
     <artifactId>salesforce-wave-api</artifactId>
-    <version>1.0.8_2026.1.0</version>
+    <version>1.0.8-dg-2026.1.0.0</version>
     <packaging>jar</packaging>
 
     <name>salesforce-wave-api</name>
