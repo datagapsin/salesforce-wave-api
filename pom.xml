@@ -4,7 +4,7 @@
 
     <groupId>com.datagaps</groupId>
     <artifactId>salesforce-wave-api</artifactId>
-    <version>1.0.8-dg-2026.1.0.0</version>
+    <version>1.0.8-dg-2026.4.0.0</version>
     <packaging>jar</packaging>
 
     <name>salesforce-wave-api</name>
@@ -96,16 +96,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.woodstox</groupId>
-            <artifactId>woodstox-core-asl</artifactId>
-            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

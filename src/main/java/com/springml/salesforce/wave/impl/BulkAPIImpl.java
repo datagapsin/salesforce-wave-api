@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
-import com.springml.salesforce.wave.model.BatchResultList;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.log4j.Logger;
@@ -18,6 +17,7 @@ import com.springml.salesforce.wave.api.BulkAPI;
 import com.springml.salesforce.wave.model.BatchInfo;
 import com.springml.salesforce.wave.model.BatchInfoList;
 import com.springml.salesforce.wave.model.JobInfo;
+import com.springml.salesforce.wave.util.BulkXmlParser;
 import com.springml.salesforce.wave.util.LRUCache;
 import com.springml.salesforce.wave.util.SFConfig;
 
@@ -73,7 +73,7 @@ public class BulkAPIImpl extends AbstractAPIImpl implements BulkAPI {
             return getObjectMapper().readValue(response.getBytes(), BatchInfo.class);
         }
 
-        return getXmlMapper().readValue(response.getBytes(), BatchInfo.class);
+        return BulkXmlParser.parseBatchInfo(response);
     }
 
     public JobInfo closeJob(String jobId) throws Exception {
@@ -134,7 +134,7 @@ public class BulkAPIImpl extends AbstractAPIImpl implements BulkAPI {
             return getObjectMapper().readValue(response.getBytes(), BatchInfoList.class);
         }
 
-        return getXmlMapper().readValue(response.getBytes(), BatchInfoList.class);
+        return BulkXmlParser.parseBatchInfoList(response);
     }
 
     public BatchInfo getBatchInfo(String jobId, String batchId) throws Exception {
@@ -144,7 +144,7 @@ public class BulkAPIImpl extends AbstractAPIImpl implements BulkAPI {
         String response = getHttpHelper().get(requestURI, getSfConfig().getSessionId(), true);
         LOG.debug("Response from Salesforce Server " + response);
 
-        return getXmlMapper().readValue(response.getBytes(), BatchInfo.class);
+        return BulkXmlParser.parseBatchInfo(response);
     }
 
     public List<String> getBatchResultIds(String jobId, String batchId) throws Exception {
@@ -158,7 +158,7 @@ public class BulkAPIImpl extends AbstractAPIImpl implements BulkAPI {
             }
         }
 
-        return getXmlMapper().readValue(response.getBytes(), BatchResultList.class).getBatchResultIds();
+        return BulkXmlParser.parseBatchResultIds(response);
     }
 
     public String getBatchResult(String jobId, String batchId, String resultId) throws Exception {

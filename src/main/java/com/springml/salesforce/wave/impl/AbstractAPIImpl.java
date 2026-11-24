@@ -2,7 +2,6 @@ package com.springml.salesforce.wave.impl;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.springml.salesforce.wave.util.HTTPHelper;
 import com.springml.salesforce.wave.util.SFConfig;
 
@@ -11,7 +10,6 @@ import com.springml.salesforce.wave.util.SFConfig;
  */
 public abstract class AbstractAPIImpl {
     private ObjectMapper objectMapper;
-    private XmlMapper xmlMapper;
     private HTTPHelper httpHelper;
     private SFConfig sfConfig;
 
@@ -23,7 +21,6 @@ public abstract class AbstractAPIImpl {
         objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
         setObjectMapper(objectMapper);
 
-        this.xmlMapper = new XmlMapper();
         this.sfConfig = sfConfig;
     }
 
@@ -49,14 +46,6 @@ public abstract class AbstractAPIImpl {
 
     public void setSfConfig(SFConfig sfConfig) {
         this.sfConfig = sfConfig;
-    }
-
-    public XmlMapper getXmlMapper() {
-        return xmlMapper;
-    }
-
-    public void setXmlMapper(XmlMapper xmlMapper) {
-        this.xmlMapper = xmlMapper;
     }
 
 }
