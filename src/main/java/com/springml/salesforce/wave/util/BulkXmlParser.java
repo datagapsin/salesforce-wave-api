@@ -70,7 +70,7 @@ public final class BulkXmlParser {
     private static BatchInfo toBatchInfo(Element element) {
         BatchInfo batchInfo = new BatchInfo();
         for (Element child : childElements(element)) {
-            String value = child.getTextContent();
+            String value = child.getTextContent().trim();
             switch (localName(child)) {
             case "id":
                 batchInfo.setId(value);
